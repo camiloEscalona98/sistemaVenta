@@ -8,8 +8,9 @@ const nuevaVenta = () => {
     return (
         <div className="fondo">
             <div className="container">
-                <div className="form-group">
-                    <label for="exampleInputEmail1">Ingresa Cliente</label>
+                <div className="form-group contenedor">
+                    <h3>Datos del Cliente</h3>
+                    
                     <div id="exampleInputEmail1" className="dropdown">
                         <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             Cliente
@@ -38,20 +39,23 @@ const nuevaVenta = () => {
 
                         </tbody>
                     </table>
-                    <hr></hr>
+                   
 
                 </div>
+                <hr></hr>
 
-                <div className="row container">
+                <div className="row ">
+                
                     <IngresoProducto></IngresoProducto>
-                    <div class="contenedor2 col-12 col-md-6 col-xl-8">
+                    <div className="contenedor2 col-12 col-md-6 col-xl-8">
                         <div className="tablaProductos">
+                        <hr></hr>
                             <TablaDetalle></TablaDetalle>
                         </div>
                     </div>
                 </div>
-
-                <button  type="button" class="btn btn-primary btn-lg btn-block">Ingresar Venta</button>
+                <hr></hr>
+                <button  type="button" className="btn btn-primary btn-lg btn-block">Ingresar Venta</button>
             </div>
         </div>
     );

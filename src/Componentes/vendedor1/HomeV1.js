@@ -24,7 +24,7 @@ const nuevoCliente = e => {
 
         <Fragment>
           
-           <Navbar></Navbar>
+           
             <section className="services py-5 bg-light1 text-center">
                 <div className="container color">
                     
