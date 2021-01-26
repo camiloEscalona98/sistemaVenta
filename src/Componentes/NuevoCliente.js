@@ -16,6 +16,7 @@ function NuevoCliente() {
     });
 
     const handleChange = e => {
+        e.preventDefault();
         const { name, value } = e.target;
         llenadoValores((prevsState) => ({
             ...prevsState,
@@ -25,21 +26,25 @@ function NuevoCliente() {
         console.log(valores);
     }
     const [data, setData] = useState([]);
-    const peticionPost = async () => {
-        var f = new FormData();
-        f.append("nombre", valores.nombre);
-        f.append("rut", valores.rut);
-        f.append("comuna", valores.comuna);
-        f.append("direccion", valores.direccion);
-        f.append("contacto", valores.contacto);
-        f.append("METHOD", "POST");
-        await axios.post(baseUrl, f)
-            .then(response => {
-                setData(data.concat(response.data));
-                
-            })
-    }
-  
+    async function peticionPost(e) {
+        {
+            e.preventDefault();
+            var f = new FormData();
+            f.append("nombre", valores.nombre);
+            f.append("rut", valores.rut);
+            f.append("comuna", valores.comuna);
+            f.append("direccion", valores.direccion);
+            f.append("contacto", valores.contacto);
+            f.append("METHOD", "POST");
+            axios.post(baseUrl, f)
+                .then(response => {
+                    setData(data.concat(response.data));
+    
+                })
+        }
+
+    } 
+
 
     return (
         <form >
@@ -47,12 +52,12 @@ function NuevoCliente() {
                 <div className="form container">
                     <div className="form-group col-md-12">
                         <label >Nombre Completo</label>
-                        <input type="email" className="form-control" name="nombre" placeholder="Nombre y Apellido" onChange={handleChange} />
+                        <input  className="form-control" name="nombre" placeholder="Nombre y Apellido" onChange={handleChange} />
                     </div>
 
                     <div className="form-group col-md-3">
                         <label >Rut</label>
-                        <input type="email" className="form-control" name="rut" placeholder="Rut" onChange={handleChange} />
+                        <input  className="form-control" name="rut" placeholder="Rut" onChange={handleChange} />
                     </div>
                     <div className="form-group container">
                         <label >Comuna</label>
@@ -69,13 +74,13 @@ function NuevoCliente() {
 
                     <div className="form-group col-md-12">
                         <label >Direccion</label>
-                        <input type="email" className="form-control" name="direccion" placeholder="Direccion" onChange={handleChange} />
+                        <input  className="form-control" name="direccion" placeholder="Direccion" onChange={handleChange} />
                     </div>
                     <div className="form-group col-md-3">
                         <label >Contacto</label>
                         <input type="number" className="form-control" name="contacto" placeholder="Numero de contacto" onChange={handleChange} />
                     </div>
-                    <button  onClick={peticionPost} type="submit" className="btn btn-primary mb-2 container">Registrar Cliente</button>
+                    <button onClick={(e) => peticionPost(e)} type="submit" className="btn btn-primary mb-2 container">Registrar Cliente</button>
                 </div>
 
             </div>
