@@ -1,63 +1,124 @@
 
-import React from 'react';
+import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../../estilos/nuevaVenta.css';
 import IngresoProducto from '../secciones/IngresoProducto';
 import TablaDetalle from '../secciones/TablaDetalle';
-const nuevaVenta = () => {
-    return (
-        <div className="fondo">
-            <div className="container">
-                <div className="form-group contenedor">
-                    <h3>Datos del Cliente</h3>
-                    
-                    <div id="exampleInputEmail1" className="dropdown">
-                        <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            Cliente
-                       </button>
-                        <ul className="dropdown-menu form-control" aria-labelledby="dropdownMenuButton">
-                            <li></li>
+import axios from 'axios';
 
-                        </ul>
-                    </div>
-                    <table className="separacion table-responsive  table-borderles">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Comuna</th>
-                                <th scope="col">Direccion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Juan Garcia</td>
-                                <td>Los Alamos</td>
-                                <td>Trespinos 334</td>
-                            </tr>
 
-                        </tbody>
-                    </table>
-                   
+class nuevaVenta extends Component {
 
-                </div>
-                <hr></hr>
+    constructor(props) {
+        super(props);
+        this.state = {
+            cliente: [],
+            idCliente: '',
+            consulta: false,
+            datosCliente: []
+        }
+    }
 
-                <div className="row ">
+
+
+
+
+    componentDidMount() {
+
+        axios
+            .get("https://pruebassistemabd.000webhostapp.com/cliente.php/")
+            .then((response) => {
+                console.log(response);
+                this.setState({ cliente: response.data });
                 
-                    <IngresoProducto></IngresoProducto>
-                    <div className="contenedor2 col-12 col-md-6 col-xl-8">
-                        <div className="tablaProductos">
-                        <hr></hr>
-                            <TablaDetalle></TablaDetalle>
+            })
+    }
+
+
+
+
+    peticionGet = (selectCliente) => {
+        const idCliente = selectCliente;
+        console.log(idCliente);
+        const url = (`https://pruebassistemabd.000webhostapp.com/cliente.php/?id=${idCliente}`);
+        axios.get(url)
+            .then(response => {
+                this.setState({ datosCliente: response.data });
+              
+            })
+    }
+
+
+
+
+
+
+
+
+    render() {
+        return (
+            <div className="fondo">
+                <div className="container">
+                    <div className="form-group contenedor">
+                        <h3>Datos del Cliente</h3>
+                        <select name="acliente" className="form-control" onChange={(e) => {
+                            const selectCliente = e.target.value;
+                           
+                            
+                          
+                            this.peticionGet(selectCliente);
+
+
+
+                        }}  >
+                            {this.state.cliente.map(elemento => (
+                                <option key={elemento.id} value={elemento.id}>{elemento.id}--{elemento.nombre}</option>
+                            ))}
+
+                        </select>
+
+
+
+
+
+                        <table className="separacion table-responsive  table-borderles">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Comuna</th>
+                                    <th scope="col">Direccion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {console.log(this.state.datosCliente)}
+                          
+                           
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <hr></hr>
+
+                    <div className="row ">
+
+                        <IngresoProducto></IngresoProducto>
+                        <div className="contenedor2 col-12 col-md-6 col-xl-8">
+                            <div className="tablaProductos">
+                                <hr></hr>
+                                <TablaDetalle></TablaDetalle>
+                            </div>
                         </div>
                     </div>
+                    <hr></hr>
+                    <button type="button" className="btn btn-primary btn-lg btn-block">Ingresar Venta</button>
                 </div>
-                <hr></hr>
-                <button  type="button" className="btn btn-primary btn-lg btn-block">Ingresar Venta</button>
             </div>
-        </div>
-    );
+        );
+    }
 }
+
 export default nuevaVenta;
