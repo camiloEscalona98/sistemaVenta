@@ -23,7 +23,7 @@ function Routes() {
    
       <Router>
         <Switch>
-          <Route path="/" exact render={props => (<Login {...props} />)} >
+          <Route path="/sistemaVenta" exact render={props => (<Login {...props} />)} >
           </Route>
           <Route path="/HomeVendedor" exact render={props => (<HomeV1 {...props} />)} >
           </Route>
