@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../estilos/nuevoCliente.css";
 import axios from 'axios';
 function NuevoCliente() {
-    const baseUrl = "https://pruebassistemabd.000webhostapp.com/cliente.php/";
+    const baseUrl = "http://localhost/apiphp/cliente.php/";
     const [valores, llenadoValores] = useState({
         id: '',
         nombre: '',
@@ -29,10 +29,10 @@ function NuevoCliente() {
 
         e.preventDefault();
         var f = new FormData();
-        f.append("nombre", valores.nombre);
         f.append("rut", valores.rut);
+        f.append("nombre", valores.nombre);
+        f.append("direccion", valores.direccion);    
         f.append("comuna", valores.comuna);
-        f.append("direccion", valores.direccion);
         f.append("contacto", valores.contacto);
         f.append("METHOD", "POST");
         axios.post(baseUrl, f)
@@ -42,10 +42,14 @@ function NuevoCliente() {
                
                
             })
+        limpiarormulario(e);
 
 
 
-
+    }
+    async function limpiarormulario(e) {
+        alert("Cliente ingresado: "+ valores.nombre);
+        document.getElementById("formulario").reset();
     }
 
 
@@ -53,7 +57,7 @@ function NuevoCliente() {
 
 
     return (
-        <form onClick={(e) => peticionPost(e)} >
+        <form id="formulario"  >
             <div className="contenedor">
                 <div className="form container">
                     <div className="form-group col-md-12">
@@ -87,7 +91,7 @@ function NuevoCliente() {
                         <label >Contacto</label>
                         <input type="number" className="form-control" name="contacto" placeholder="Numero de contacto" onChange={handleChange} />
                     </div>
-                    <button type="submit" className="btn btn-primary mb-2 container">Registrar Cliente</button>
+                    <button onClick={(e) => peticionPost(e)} type="submit" className="btn btn-primary mb-2 container">Registrar Cliente</button>
                 </div>
 
             </div>
