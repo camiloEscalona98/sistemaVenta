@@ -10,7 +10,7 @@ import {
     Router,
   Switch,
   Route,
-
+//rutas
 
 } from "react-router-dom";
 
