@@ -2,8 +2,8 @@ import axios from 'axios';
 import React, { } from 'react';
 import { Fragment } from 'react';
 import { Component } from 'react';
-import { Form } from 'reactstrap';
-
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 const url = 'http://localhost/apiphp/producto_venta.php/?num_venta=';
 const urlDelete = 'http://localhost/apiphp/cliente.php?id=';
 class TablaDetalle extends Component {
@@ -17,6 +17,7 @@ class TablaDetalle extends Component {
             sumatoria: '',
             numVenta: '',
             estado: '',
+            tipoPeticion: false,
 
 
         }
@@ -29,10 +30,11 @@ class TablaDetalle extends Component {
 
     componentWillMount() {
         this.conocerNumVenta();
+        this.conocerTipoPeticion();
     }
 
     componentDidMount() {
-        
+
         console.log(this.state.numVenta);
 
     }
@@ -46,10 +48,16 @@ class TablaDetalle extends Component {
             return true;
         }
     }
-
+    // conocer tipo de peticion con ayuda de los props para saber si se debe mostrar el boton de eliminar
+    conocerTipoPeticion = async () => {
+        const tipoPeticion = this.props.tipoPeticion;
+        await this.setState({ tipoPeticion: tipoPeticion });
+        console.log(this.state.tipoPeticion);
+    }
+    // conocer el num_venta con ayuda de los props enviados del componente padre
     conocerNumVenta = async () => {
 
-        await console.log("este es el nummventa"+this.props.numVenta);
+        await console.log("este es el nummventa" + this.props.numVenta);
         const numVenta = this.props.numVenta;
         await this.setState({ numVenta: numVenta });
         this.peticionGet();
@@ -60,7 +68,7 @@ class TablaDetalle extends Component {
         this.peticionGet();
 
     }
-
+    //peticion get a la api, necesario el num_venta
     peticionGet = async () => {
         const numVenta = this.state.numVenta;
         await axios.get(url + "'" + numVenta + "'")
@@ -94,16 +102,16 @@ class TablaDetalle extends Component {
         let sumatoriaCajas = 0;
         return (
             <Fragment>
-                <div>
+                {this.state.tipoPeticion ? (<div>
                     <table className="table container table-striped table-condensed table-responsive">
                         <thead>
                             <tr >
                                 <th className="th" scope="col">#</th>
 
                                 <th className="th" scope="col">Producto</th>
-                                <th className="th" scope="col">Valor</th>
                                 <th className="th" scope="col">Cantidad</th>
-                                <th className="th" scope="col">Eliminar</th>
+                                <th className="th" scope="col">Valor</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -116,9 +124,9 @@ class TablaDetalle extends Component {
                                         <tr >
                                             <td  >{index + 1}</td>
                                             <td >{elemento.producto}</td>
-                                            <td >${elemento.valor}</td>
                                             <td  >{elemento.cantidad}</td>
-                                            <td onClick={() => this.seleccionarDetalle(elemento)} className="btn btn-danger">eliminar</td>
+                                            <td >${elemento.valor}</td>
+
                                         </tr>
                                     </Fragment>
 
@@ -129,17 +137,67 @@ class TablaDetalle extends Component {
                             <tr className="table-success">
                                 <td>Total:</td>
                                 <td></td>
-                                <td>${total}</td>
                                 <td>{sumatoriaCajas}</td>
-                                <td> </td>
-                                <td></td>
+                                <td>${total}</td>
+                                
+                                
                             </tr>
 
                         </tbody>
                     </table>
 
 
-                </div>
+                </div>) :
+
+
+
+                    (<div>
+                        <div>
+                            <table className="table container table-striped table-condensed table-responsive">
+                                <thead>
+                                    <tr >
+                                        <th className="th" scope="col">#</th>
+
+                                        <th className="th" scope="col">Producto</th>
+                                        <th className="th" scope="col">Cantidad</th>
+                                        <th className="th" scope="col">Valor</th>
+                                        <th className="th" scope="col">Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.state.data.map((elemento, index) => {
+                                        total += elemento.valor * elemento.cantidad;
+                                        sumatoriaCajas = parseFloat(sumatoriaCajas) + parseFloat(elemento.cantidad);
+
+                                        return (
+                                            <Fragment key={index}>
+                                                <tr >
+                                                    <td  >{index + 1}</td>
+                                                    <td >{elemento.producto}</td>
+                                                    <td  >{elemento.cantidad}</td>
+                                                    <td >${elemento.valor}</td>
+                                                    <td onClick={() => this.seleccionarDetalle(elemento)} className="btn btn-danger">eliminar</td>
+                                                </tr>
+                                            </Fragment>
+
+                                        )
+
+                                    })}
+
+                                    <tr className="table-success">
+                                        <td>Total:</td>
+                                        <td></td>
+                                        <td>{sumatoriaCajas}</td>
+                                        <td>${total}</td>
+                                        <td></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>)}
 
             </Fragment>
 

@@ -33,6 +33,7 @@ class nuevaVenta extends Component {
             estadoTabla: 0,
             estadoNumVenta: false,
             mostrarCliente: false,
+            tipoPeticion: false,
 
 
         }
@@ -215,6 +216,7 @@ class nuevaVenta extends Component {
                                         numVenta={this.state.num_venta}
                                         estadoTabla={this.state.estadoTabla}
                                         estadoNumVenta={this.state.estadoNumVenta}
+                                        tipoPeticion={this.state.tipoPeticion}
                                     ></TablaDetalle></div>
                             </div>
                         </div>

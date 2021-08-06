@@ -4,7 +4,7 @@ import MaterialTable from 'material-table';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { red } from '@material-ui/core/colors';
+
 import TablaDetalle from '../secciones/TablaDetalle';
 
 const cookies = new Cookies();
@@ -92,7 +92,8 @@ const ListaVentas = () => {
         determinar();
 
     }, [])
-
+    //estado para conocer tipo peticion en tabla detalle
+    const [tipoPeticion, conocerTipoPeticion] = useState(true);
     const [tipoUsuario, conocerTipoUsuario] = useState(true);
     const determinar = () => {
         if (cookies.get('rol') === 'vendedor') {
@@ -276,6 +277,7 @@ const ListaVentas = () => {
                             <tbody>
                             </tbody>
                         </div>
+                        <br></br>
                         <h3>Datos de Venta</h3>
                         <table className="table-responsive">
                             <thead>
@@ -302,6 +304,7 @@ const ListaVentas = () => {
                         </table>
                         <TablaDetalle
                         numVenta = {num_venta}
+                        tipoPeticion = {tipoPeticion}
                         ></TablaDetalle>
 
 

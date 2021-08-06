@@ -119,7 +119,7 @@ class Login extends Component {
                                 onChange={this.handleChange}
                             //  value={contrasenha}
                             />
-                            <input onClick={() => this.iniciarSesion()} className="fadeIn fourth btn btn-primary btn-lg" value="Ingresar" />
+                            <input type="button" onClick={() => this.iniciarSesion()} className="fadeIn fourth btn btn-primary btn-lg" value="Ingresar" />
                         </form>
 
 

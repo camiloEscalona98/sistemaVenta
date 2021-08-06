@@ -15,7 +15,7 @@ class Footer extends Component {
         cookies.remove('username', {path: "/"});
         cookies.remove('user', {path: "/"});
         cookies.remove('rol', {path: "/"});
-        window.location.href='./';
+        window.location.href='/sistemaVenta';
     }
     componentDidMount () {
         const nombre = cookies.get('user');
